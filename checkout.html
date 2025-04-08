@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Instamart</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+
+    <link rel="icon" type="image/x-icon" href="/images/favico.png">
+
+    <style>
+        /* Existing styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Arial", sans-serif;
+        }
+
+        body {
+            min-height: 118vh;
+            display: flex;
+            flex-direction: column;
+            background-color: #e4e4e4;
+        }
+
+        header {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        padding: 5px 0;
+        background: #eee;
+        z-index: 9999;
+        transition: all 300ms ease-in-out;
+      }
+      nav {
+        display: flex;
+        justify-content: space-between; /* Space out elements */
+        align-items: center;
+        max-width: 1200px;
+        margin: auto;
+        padding: 10px 20px;
+      }
+
+      .nav-left {
+        display: flex;
+        align-items: center;
+      }
+
+      .nav-left .logo img {
+        height: 50px;
+        width: auto;
+      }
+
+      .nav-center {
+        flex-grow: 1;
+        display: flex;
+        justify-content: center;
+      }
+
+      .nav-center ul {
+        list-style: none;
+        display: flex;
+        gap: 40px;
+      }
+
+      .nav-center ul li a {
+        text-decoration: none;
+        color: black;
+        font-size: 1.1rem;
+        font-weight: 600;
+        padding: 8px 12px;
+      }
+
+      .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .nav-right ul {
+        list-style: none;
+        display: flex;
+        gap: 20px;
+      }
+
+      .nav-right ul li a {
+        text-decoration: none;
+        color: black;
+        font-size: 1.1rem;
+        font-weight: 600;
+        padding: 8px 12px;
+      }
+
+      .nav-right .login {
+        background-color: #e85915;
+        color: white;
+        border-radius: 5px;
+        padding: 8px 12px;
+      }
+
+      .login {
+        background-color: #e85915;
+        border-radius: 5px;
+      }
+
+      .nav-center ul li a:hover,
+      .nav-right ul li a:hover {
+        color: #e85915;
+        background-color: rgb(222, 221, 221);
+        transition: 0.5s;
+        border-radius: 5px;
+      }
+      .logo:hover img {
+        transform: scale(1.05);
+        transition: 1s;
+      }
+      .scroll-down header {
+        transform: translateY(-100%);
+      }
+
+      .scroll-up header {
+        filter: drop-shadow(0 -10px 20px rgb(170, 170, 170));
+      }
+
+      .menu-is-open {
+        overflow: hidden;
+      }
+
+      .menu-is-open header {
+        filter: none;
+      }
+
+
+        footer {
+            background-color: #0b0b0d;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            margin-top: auto;
+            border-top: 1px solid #333;
+        }
+
+        footer a,
+        p:hover {
+            color: #e85915;
+            transition: 1s;
+        }
+
+        .footer-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .footer-container p {
+            font-size: 16px;
+        }
+
+        .social-icons a {
+            color: white;
+            margin-left: 15px;
+            font-size: 18px;
+            text-decoration: none;
+            align-items: end;
+            text-align: left;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .social-icons a:hover {
+            color: #ff9800;
+        }
+
+        /* New styles for checkout page */
+        .checkout-container {
+            width: 90%;
+            margin: 60px auto;
+            padding: 40px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            margin-top: 8%;
+            
+        }
+
+        .checkout-header {
+            font-size: 30px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            color: #e85915;
+        }
+
+        .order-summary {
+    background-color: #f7f7f7;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.order-summary h3 {
+    margin-top: 0;
+    font-weight: bold;
+    color: #333;
+}
+
+.order-summary p {
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #666;
+}
+
+.order-summary p span:first-child {
+    font-weight: bold;
+    color: #333;
+}
+
+.checkout-form {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.checkout-form label {
+    margin-bottom: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+.checkout-form input {
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.checkout-form textarea {
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.checkout-form button[type="submit"] {
+    background-color: #e85915;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.checkout-form button[type="submit"]:hover {
+    background-color: #ff9800;
+}
+</style>
+<body>
+    <header>
+        <header>
+          <nav>
+              <div class="nav-left">
+                  <a href="home.html" class="logo"><img src="images/logo.png" alt="Logo" /></a>
+              </div>
+              <div class="nav-center">
+                  <ul>
+                      <li><a href="home.html">Home</a></li>
+                      <li><a href="product.html">Products</a></li>
+                      <li><a href="help.html">Help</a></li>
+                      <li><a href="contact.html">Contact Us</a></li>
+                  </ul>
+              </div>
+              <div class="nav-right">
+                  <ul>
+                      <li><a href="cart.html" class="cart-icon"><i class="fa-duotone fa-solid fa-cart-shopping"></i></a></li>
+                      <li><a href="checkout.html">Checkout</a></li>
+                      <li><a href="login.html" class="login">Login</a></li>
+                  </ul>
+              </div>
+          </nav>
+      </header>
+      </header>
+      <div class="checkout-container">
+        <h2 class="checkout-header">Checkout</h2>
+        <div class="order-summary">
+            <h3>Order Summary</h3>
+            <p><span>Items:</span> <span id="item-count">0</span></p>
+            <p><span>Total:</span> <span id="total-cost">₹0.00</span></p>
+        </div>
+        <form class="checkout-form">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name"><br><br>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email"><br><br>
+            <label for="phone">Phone:</label>
+            <input type="tel" id="phone" name="phone"><br><br>
+            <label for="address">Address:</label>
+            <textarea id="address" name="address"></textarea><br><br>
+            <button type="submit">Place Order</button>
+        </form>
+    </div>
+    
+      <footer>
+        <div class="footer-container">
+          <p>© 2025 Swiggy</p>
+          <div class="social-icons">
+            <a href="https://www.facebook.com/SwiggyInstamart/"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://in.pinterest.com/swiggyindia/"><i class="fab fa-pinterest"></i></a>
+            <a href="https://www.instagram.com/swiggy_instamart/?hl=en"><i class="fab fa-instagram"></i></a>
+            <a href="https://x.com/SwiggyInstamart"><i class="fab fa-twitter"></i></a>
+          </div>
+        </div>
+      </footer>
+      <script src="checkout.js"></script>
+  <script>
+    const body = document.body;
+    let lastScroll = 0;
+
+    window.addEventListener("scroll", () => {
+        const currentScroll = window.pageYOffset;
+        if (currentScroll <= 0) {
+            body.classList.remove("scroll-up");
+            return;
+        }
+
+        if (
+            currentScroll > lastScroll &&
+            !body.classList.contains("scroll-down")
+        ) {
+            body.classList.remove("scroll-up");
+            body.classList.add("scroll-down");
+        } else if (
+            currentScroll < lastScroll &&
+            body.classList.contains("scroll-down")
+        ) {
+            body.classList.remove("scroll-down");
+            body.classList.add("scroll-up");
+        }
+        lastScroll = currentScroll;
+    });
+  </script>
+</body>
+</html>        
+</body>

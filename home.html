@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Instamart</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <link rel="icon" type="image/x-icon" href="/images/favico.png">
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Arial", sans-serif;
+      }
+
+      body {
+        min-height: 200vh;
+        display: flex;
+        flex-direction: column;
+        background-color: #e4e4e4;
+      }
+
+      header {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        padding: 5px 0;
+        background: #eee;
+        z-index: 9999;
+        transition: all 300ms ease-in-out;
+      }
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: auto;
+        padding: 10px 20px;
+      }
+
+      .nav-left {
+        display: flex;
+        align-items: center;
+      }
+
+      .nav-left .logo img {
+        height: 50px;
+        width: auto;
+      }
+
+      .nav-center {
+        flex-grow: 1;
+        display: flex;
+        justify-content: center;
+      }
+
+      .nav-center ul {
+        list-style: none;
+        display: flex;
+        gap: 40px;
+      }
+
+      .nav-center ul li a {
+        text-decoration: none;
+        color: black;
+        font-size: 1.1rem;
+        font-weight: 600;
+        padding: 8px 12px;
+      }
+
+      .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .nav-right ul {
+        list-style: none;
+        display: flex;
+        gap: 20px;
+      }
+
+      .nav-right ul li a {
+        text-decoration: none;
+        color: black;
+        font-size: 1.1rem;
+        font-weight: 600;
+        padding: 8px 12px;
+      }
+
+      .nav-right .login {
+        background-color: #e85915;
+        color: white;
+        border-radius: 5px;
+        padding: 8px 12px;
+      }
+
+      .login {
+        background-color: #e85915;
+        border-radius: 5px;
+      }
+
+      .nav-center ul li a:hover,
+      .nav-right ul li a:hover {
+        color: #e85915;
+        background-color: rgb(222, 221, 221);
+        transition: 0.5s;
+        border-radius: 5px;
+      }
+      .logo:hover img {
+        transform: scale(1.05);
+        transition: 1s;
+      }
+      .scroll-down header {
+        transform: translateY(-100%);
+      }
+
+      .scroll-up header {
+        filter: drop-shadow(0 -10px 20px rgb(170, 170, 170));
+      }
+
+      .menu-is-open {
+        overflow: hidden;
+      }
+
+      .menu-is-open header {
+        filter: none;
+      }
+
+      .hero {
+        background-image: url('./product/banner.jpg');
+        background-size: cover;
+        background-position: center;
+        aspect-ratio: 54 / 10;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        text-align: center;
+        padding: 20px;
+        cursor: pointer;
+      }
+
+      .grid-container {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 15px;
+        padding: 20px;
+        background: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      .grid-item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        background: white;
+        transition: transform 0.3s ease-in-out;
+        position: relative;
+        flex-direction: column;
+      }
+      .grid-item:hover {
+        transform: scale(1.01);
+        cursor: pointer;
+      }
+      .grid-item img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        border-radius: 8px;
+      }
+
+      footer {
+        background-color: #0b0b0d;
+        color: white;
+        padding: 20px 0;
+        text-align: center;
+        margin-top: auto;
+      }
+
+      footer a,
+      p:hover {
+        color: #e85915;
+        transition: 1s;
+      }
+
+      .footer-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 80%;
+        margin: 0 auto;
+      }
+
+      .footer-container p {
+        font-size: 16px;
+      }
+
+      .social-icons a {
+        color: white;
+        margin-left: 15px;
+        font-size: 18px;
+        text-decoration: none;
+        align-items: end;
+        text-align: left;
+      }
+
+      .social-icons a:hover {
+        color: #ff9800;
+      }
+
+      .category-section {
+        margin: 20px 0;
+        padding: 20px;
+        background: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .category-section h2 {
+        margin-bottom: 20px;
+        font-size: 2rem;
+        color: #333;
+      }
+
+      .add-to-cart-btn {
+        background-color: #e85915;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: 600;
+        margin: 10px;
+        transition: background-color 0.3s ease;
+      }
+
+      .add-to-cart-btn:hover {
+        background-color: #ff752b;
+      }
+
+      
+
+      .cart-popup {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background-color: #fff;
+        padding: 15px 25px;
+        border-radius: 5px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        z-index: 10000;
+        display: none;
+        border-left: 4px solid #e85915;
+      }
+
+      .cart-popup.show {
+        display: block;
+        animation: slideIn 0.3s ease-out;
+      }
+
+.carousel {
+  position: relative;
+  width: 100%;
+  margin: auto;
+  overflow: hidden;
+}
+
+.carousel-inner {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.carousel-item {
+  min-width: 100%;
+}
+
+.carousel-item img {
+  width: 100%;
+  display: block;
+}
+
+#button-c {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.prev {
+  left: 10px;
+}
+
+.next {
+  right: 10px;
+}
+
+      
+
+      @keyframes slideIn {
+        from {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+
+.how-it-works-section {
+    width: 95%;
+    max-width: 93%;
+    padding: 50px 20px;
+    margin: auto;
+    text-align: center;
+}
+
+.hiw-title {
+    font-size: 36px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 30px;
+    color: #222;
+}
+
+.hiw-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 60px;
+    flex-wrap: wrap;
+}
+
+.hiw-box {
+    background: #f7c846;
+    padding: 25px;
+    text-align: center;
+    flex: 1;
+    border-radius: 12px;
+    transition: 0.3s ease-in-out;
+    min-width: 250px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.hiw-box:nth-child(2) {
+    background: #ea963c;
+}
+
+.hiw-box:nth-child(3) {
+    background: #db7625;
+}
+
+.hiw-icon {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 15px;
+}
+
+.hiw-heading {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+
+.hiw-text {
+    font-size: 16px;
+    color: #333;
+}
+
+/* Hover Effect */
+.hiw-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hiw-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .hiw-box {
+        width: 80%;
+        margin-bottom: 15px;
+    }
+}
+
+.eco-packaging-section {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 40px;
+  background-color: #f8f8f8;
+  margin-bottom: 2%;
+  padding-bottom: 2%;
+}
+
+.eco-packaging-box {
+  text-align: center;
+  max-width: 320px;
+}
+
+.eco-packaging-img {
+  width: 100px;
+  height: auto;
+  margin-bottom: 10%;
+}
+
+.eco-packaging-text {
+  font-size: 16px;
+  color: #333;
+}
+
+.eco-packaging-link {
+  
+  display: block;
+  color: #ff752b;
+  text-decoration: none;
+  font-weight: bold;
+  margin-top: 15px;
+}
+
+
+      
+    </style>
+  </head>
+  <body>
+    <div id="cartPopup" class="cart-popup">
+      Item added to cart!
+    </div>
+
+    <header>
+      <nav>
+        <div class="nav-left">
+          <a href="home.html" class="logo"><img src="images/logo.png" alt="Logo" /></a>
+        </div>
+
+        <div class="nav-center">
+          <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="product.html">Products</a></li>
+            <li><a href="help.html">Help</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+          </ul>
+        </div>
+
+        <div class="nav-right">
+          <ul>
+            <li>
+              <a href="cart.html" class="cart-icon"><i class="fa-duotone fa-solid fa-cart-shopping"></i></a>
+            </li>
+            <li><a href="checkout.html">Checkout</a></li>
+            <li><a href="login.html" class="login">Login</a></li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+    <div style="height: 80px;"></div>
+    <div>
+
+    <!-- Carousel Section -->
+<div class="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="/images/bannerr.avif" alt="Slide 1">
+    </div>
+    <div class="carousel-item">
+      <img src="/images/banner2.avif" alt="Slide 2">
+    </div>
+    <div class="carousel-item">
+      <img src="/images/banner3.avif" alt="Slide 3">
+    </div>
+  </div>
+  <button id="button-c" class="prev" onclick="moveSlide(-1)">&#10094;</button>
+  <button class="next" id="button-c" onclick="moveSlide(1)">&#10095;</button>
+</div>
+
+
+    <div class="grid-container" id="gridContainer">
+
+    </div>
+    
+    <hr>
+    <div style="background-color: white;">
+ <section class="how-it-works-section" >
+        <h2 class="hiw-title">How It Works</h2>
+        <div class="hiw-container">
+            <div class="hiw-box">
+                <img src="images/buy.gif" alt="Subscribe" class="hiw-icon" style="transform: scale(1.5); border-radius: 20%; margin-top: 4%; margin-bottom: 15%;">
+                <h3 class="hiw-heading">Subscribe to Our Service</h3>
+                <p class="hiw-text">Choose the products you wish to buy, there's many offers available and we guarantee the best price.</p>
+            </div>
+            <div class="hiw-box">
+                <img src="images/paper-bag.gif" alt="Subscribe" class="hiw-icon" style="transform: scale(1.5); border-radius: 20%; margin-top: 4%; margin-bottom: 15%;">
+               
+                <h3 class="hiw-heading">We Pack & Ship</h3>
+                <p class="hiw-text">We carefully pack your items and ship them right to your doorstep.</p>
+            </div>
+            <div class="hiw-box">
+              <img src="images/door.gif" alt="Subscribe" class="hiw-icon" style="transform: scale(1.5); border-radius: 20%; margin-top: 4%; margin-bottom: 15%;">
+                   <h3 class="hiw-heading">Enjoy Your Box</h3>
+                <p class="hiw-text">Unbox and enjoy! Don’t forget to share your experience on social media.</p>
+            </div>
+        </div>
+    </section>
+</div>
+    <div id="categories"></div>
+
+<div class="eco-packaging-section">
+  <div class="eco-packaging-box">
+    <img src="/images/img1.png" alt="Eco-friendly Coffee" class="eco-packaging-img">
+    <p class="eco-packaging-text">Sustainably sourced paper, packed with love.</p>
+    <a href="#" class="eco-packaging-link">EXPLORE PRODUCTS ↗</a>
+  </div>
+
+  <div class="eco-packaging-box">
+    <img src="/images/img2.png" alt="Fun Packaging" class="eco-packaging-img">
+    <p class="eco-packaging-text">Our packaging is 100% recyclable and designed for fun!</p>
+    <a href="login.html" class="eco-packaging-link">LOGIN ↗</a>
+  </div>
+  
+  <div class="eco-packaging-box">
+    <img src="images/img3.png" alt="Special Offer" class="eco-packaging-img">
+    <p class="eco-packaging-text">Try us out at a special price. Use this code at checkout—</p>
+    <a href="checkout.html" class="eco-packaging-link">CHECKOUT ↗</a>
+  </div>
+</div>
+
+    <footer>
+      <div class="footer-container">
+        <p>© 2025 Swiggy</p>
+        <div class="social-icons">
+          <a href="https://www.facebook.com/SwiggyInstamart/"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://in.pinterest.com/swiggyindia/"><i class="fab fa-pinterest"></i></a>
+          <a href="https://www.instagram.com/swiggy_instamart/?hl=en"><i class="fab fa-instagram"></i></a>
+          <a href="https://x.com/SwiggyInstamart"><i class="fab fa-twitter"></i></a>
+        </div>
+      </div>
+    </footer>
+
+      <script>
+        const images = [
+            './category/Atta, Rice & Dal.png',
+            './category/Baby Care.png',
+            './category/Bakery & Biscuits.png',
+            './category/Breakfast & Instant Food.png',
+            './category/Chicken, Meat & Fish.png',
+            './category/Cleaning Essentials.png',
+            './category/Cold Drinks & Juices.png',
+            './category/Dairy, Bread & Eggs.png',
+            './category/Fruits & Vegetables.png',
+            './category/Home & Office.png',
+            './category/Masala, Oil & More.png',
+            './category/Organic & Healthy Living.png',
+            './category/paan corner.png',
+            './category/Pet Care.png',
+            './category/Personal Care.png',
+            './category/Pharma & Wellness.png'
+        ];
+      
+        const gridContainer = document.getElementById("gridContainer");
+      
+        images.forEach((src, i) => {
+            let div = document.createElement("div");
+            div.classList.add("grid-item");
+            div.addEventListener("click", () => {
+                window.location.href = `#category${i}`;
+            });
+            let img = document.createElement("img");
+            img.src = src;
+            div.appendChild(img);
+            gridContainer.appendChild(div);
+        });
+      
+        const categories = {
+            category0: Array.from({ length: 7 }, (_, i) => ({ name: `Item ${i + 1}`, price: Math.floor(Math.random() * 50) + 10 })),
+            category1: Array.from({ length: 8 }, (_, i) => ({ name: `Item ${i + 1}`, price: Math.floor(Math.random() * 50) + 10 })),
+            category2: Array.from({ length: 11 }, (_, i) => ({ name: `Item ${i + 1}`, price: Math.floor(Math.random() * 50) + 10 })),
+            // category3: Array.from({ length: 10 }, (_, i) => ({ name: `item${i + 1}`, price: Math.floor(Math.random() * 50) + 10 })),
+             };
+      
+        const categoryNames = [
+            'Trending Products',
+            'Frequently Bought Products',
+            'Products People Buying Near You',
+        ];
+      
+        const images1 = [
+            './category/Atta, Rice & Dal.png',
+            './category/Baby Care.png',
+            './category/Bakery & Biscuits.png',
+        ];
+      
+        const categoriesContainer = document.getElementById('categories');
+        const cartPopup = document.getElementById('cartPopup');
+      
+        function showCartPopup() {
+            cartPopup.classList.add('show');
+            setTimeout(() => {
+                cartPopup.classList.remove('show');
+            }, 2000);
+        }
+      
+        function addToCart(category, item, price) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart.push({ category, item, price });
+            localStorage.setItem('cart', JSON.stringify(cart));
+            showCartPopup();
+        }
+      
+        function renderCategory(categoryKey, index, items) {
+            const section = document.createElement('div');
+            section.classList.add('category-section');
+            section.id = categoryKey;
+      
+            const title = document.createElement('h2');
+            title.textContent = categoryNames[index];
+            section.appendChild(title);
+      
+            const sortContainer = document.createElement('div');
+            sortContainer.style.marginBottom = '15px';
+      
+            const sortByPriceBtn = document.createElement('button');
+            sortByPriceBtn.textContent = 'Sort by Price';
+            sortByPriceBtn.style.marginRight = '10px';
+            sortByPriceBtn.classList.add('add-to-cart-btn');
+            sortByPriceBtn.addEventListener('click', () => {
+                const sortedItems = [...items].sort((a, b) => a.price - b.price);
+                updateCategoryGrid(categoryKey, sortedItems);
+            });
+            sortContainer.appendChild(sortByPriceBtn);
+      
+            const sortByNameBtn = document.createElement('button');
+            sortByNameBtn.textContent = 'Sort by Name';
+            sortByNameBtn.classList.add('add-to-cart-btn');
+            sortByNameBtn.addEventListener('click', () => {
+                const sortedItems = [...items].sort((a, b) => a.name.localeCompare(b.name));
+                updateCategoryGrid(categoryKey, sortedItems);
+            });
+            sortContainer.appendChild(sortByNameBtn);
+      
+            section.appendChild(sortContainer);
+      
+            const gridContainer = document.createElement('div');
+            gridContainer.classList.add('grid-container');
+            gridContainer.id = `${categoryKey}-grid`;
+      
+            items.forEach((itemObj, itemIndex) => {
+                const gridItem = document.createElement('div');
+                gridItem.classList.add('grid-item');
+      
+                const img = document.createElement('img');
+                img.src = images1[index];
+                gridItem.appendChild(img);
+      
+                const nameSpan = document.createElement('span');
+                nameSpan.textContent = itemObj.name;
+                nameSpan.style.margin = '5px 0';
+                gridItem.appendChild(nameSpan);
+      
+                const priceSpan = document.createElement('span');
+                priceSpan.textContent = `Rs. ${itemObj.price}`;
+                priceSpan.style.margin = '5px 0';
+                gridItem.appendChild(priceSpan);
+      
+                const addButton = document.createElement('button');
+                addButton.classList.add('add-to-cart-btn');
+                addButton.textContent = 'Add to Cart';
+                addButton.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    addToCart(categoryNames[index], itemObj.name, itemObj.price);
+                });
+                gridItem.appendChild(addButton);
+      
+                gridItem.addEventListener('click', (e) => {
+                    if (e.target !== addButton) {
+                        window.location.href = `#${categoryKey}-${itemIndex}`;
+                    }
+                });
+      
+                gridContainer.appendChild(gridItem);
+            });
+      
+            section.appendChild(gridContainer);
+            categoriesContainer.appendChild(section);
+        }
+      
+        function updateCategoryGrid(categoryKey, items) {
+            const gridContainer = document.getElementById(`${categoryKey}-grid`);
+            gridContainer.innerHTML = ''; // Clear existing items
+      
+            items.forEach((itemObj, itemIndex) => {
+                const gridItem = document.createElement('div');
+                gridItem.classList.add('grid-item');
+      
+                const img = document.createElement('img');
+                img.src = images1[parseInt(categoryKey.replace('category', ''))];
+                gridItem.appendChild(img);
+      
+                const nameSpan = document.createElement('span');
+                nameSpan.textContent = itemObj.name;
+                nameSpan.style.margin = '5px 0';
+                gridItem.appendChild(nameSpan);
+      
+                const priceSpan = document.createElement('span');
+                priceSpan.textContent = `Rs. ${itemObj.price}`;
+                priceSpan.style.margin = '5px 0';
+                gridItem.appendChild(priceSpan);
+      
+                const addButton = document.createElement('button');
+                addButton.classList.add('add-to-cart-btn');
+                addButton.textContent = 'Add to Cart';
+                addButton.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    addToCart(categoryNames[parseInt(categoryKey.replace('category', ''))], itemObj.name, itemObj.price);
+                });
+                gridItem.appendChild(addButton);
+      
+                gridItem.addEventListener('click', (e) => {
+                    if (e.target !== addButton) {
+                        window.location.href = `#${categoryKey}-${itemIndex}`;
+                    }
+                });
+      
+                gridContainer.appendChild(gridItem);
+            });
+        }
+      
+        Object.keys(categories).forEach((categoryKey, index) => {
+            renderCategory(categoryKey, index, categories[categoryKey]);
+        });
+      
+        const body = document.body;
+        let lastScroll = 0;
+      
+        window.addEventListener("scroll", () => {
+            const currentScroll = window.pageYOffset;
+            if (currentScroll <= 0) {
+                body.classList.remove("scroll-up");
+                return;
+            }
+      
+            if (
+                currentScroll > lastScroll &&
+                !body.classList.contains("scroll-down")
+            ) {
+                body.classList.remove("scroll-up");
+                body.classList.add("scroll-down");
+            } else if (
+                currentScroll < lastScroll &&
+                body.classList.contains("scroll-down")
+            ) {
+                body.classList.remove("scroll-down");
+                body.classList.add("scroll-up");
+            }
+            lastScroll = currentScroll;
+
+
+        });
+
+let index = 0;
+const items = document.querySelectorAll(".carousel-item");
+const totalSlides = items.length;
+const carouselInner = document.querySelector(".carousel-inner");
+
+// Function to move slides
+function moveSlide(step) {
+  index = (index + step + totalSlides) % totalSlides;
+  carouselInner.style.transition = "transform 1s ease-in-out"; // Smooth easing effect
+  carouselInner.style.transform = `translateX(-${index * 100}%)`;
+}
+
+// Auto slide every 3 seconds (3000 ms)
+setInterval(() => moveSlide(1), 3000);
+
+
+      </script>
+  </body>
+</html>

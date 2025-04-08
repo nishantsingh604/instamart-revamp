@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Instamart</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+    
+    <link rel="icon" type="image/x-icon" href="/images/favico.png">
+
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Arial", sans-serif;
+      }
+
+      body {
+        min-height: 200vh;
+        display: flex;
+        flex-direction: column;
+        background-color: #e4e4e4;
+      }
+
+      header {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        padding: 5px 0;
+        background: #eee;
+        z-index: 9999;
+        transition: all 300ms ease-in-out;
+      }
+      nav {
+        display: flex;
+        justify-content: space-between; /* Space out elements */
+        align-items: center;
+        max-width: 1200px;
+        margin: auto;
+        padding: 10px 20px;
+      }
+
+      .nav-left {
+        display: flex;
+        align-items: center;
+      }
+
+      .nav-left .logo img {
+        height: 50px;
+        width: auto;
+      }
+
+      .nav-center {
+        flex-grow: 1;
+        display: flex;
+        justify-content: center;
+      }
+
+      .nav-center ul {
+        list-style: none;
+        display: flex;
+        gap: 40px;
+      }
+
+      .nav-center ul li a {
+        text-decoration: none;
+        color: black;
+        font-size: 1.1rem;
+        font-weight: 600;
+        padding: 8px 12px;
+      }
+
+      .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .nav-right ul {
+        list-style: none;
+        display: flex;
+        gap: 20px;
+      }
+
+      .nav-right ul li a {
+        text-decoration: none;
+        color: black;
+        font-size: 1.1rem;
+        font-weight: 600;
+        padding: 8px 12px;
+      }
+
+      .nav-right .login {
+        background-color: #e85915;
+        color: white;
+        border-radius: 5px;
+        padding: 8px 12px;
+      }
+
+      .login {
+        background-color: #e85915;
+        border-radius: 5px;
+      }
+
+      .nav-center ul li a:hover,
+      .nav-right ul li a:hover {
+        color: #e85915;
+        background-color: rgb(222, 221, 221);
+        transition: 0.5s;
+        border-radius: 5px;
+      }
+      .logo:hover img {
+        transform: scale(1.05);
+        transition: 1s;
+      }
+      .scroll-down header {
+        transform: translateY(-100%);
+      }
+
+      .scroll-up header {
+        filter: drop-shadow(0 -10px 20px rgb(170, 170, 170));
+      }
+
+      .menu-is-open {
+        overflow: hidden;
+      }
+
+      .menu-is-open header {
+        filter: none;
+      }
+
+      footer {
+        background-color: #0b0b0d;
+        color: white;
+        padding: 20px 0;
+        text-align: center;
+        margin-top: auto;
+      }
+
+      footer a,
+      p:hover {
+        color: #e85915;
+        transition: 1s;
+      }
+
+      .footer-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 80%;
+        margin: 0 auto;
+      }
+
+      .footer-container p {
+        font-size: 16px;
+      }
+
+      .social-icons a {
+        color: white;
+        margin-left: 15px;
+        font-size: 18px;
+        text-decoration: none;
+        align-items: end;
+        text-align: left;
+      }
+
+      .social-icons a:hover {
+        color: #ff9800;
+
+      }
+
+      .container {
+      display: flex;
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 0 20px;
+    }
+    /* Left Sidebar */
+    .sidebar {
+      flex: 0 0 200px;
+      position: sticky;
+      top: 20px;
+      align-self: flex-start;
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      border-radius: 5px;
+      padding: 10px;
+      margin-right: 20px;
+    }
+    .sidebar h2 {
+      font-size: 1.2em;
+      margin-bottom: 15px;
+      text-align: center;
+      color: #ff5722;
+    }
+    /* Support Text with Lazy Transition */
+    .support-text {
+      font-family: 'Brush Script MT', cursive;
+      font-size: 1.2em;
+      color: #ff5722;
+      text-align: center;
+      opacity: 0;
+      animation: fadeIn 1.5s forwards;
+      animation-delay: 0.5s;
+      margin-bottom: 15px;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .sidebar ul {
+      list-style: none;
+    }
+    .sidebar li {
+      padding: 8px 12px;
+      margin-bottom: 8px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .sidebar li.active, .sidebar li:hover {
+      background: #ff5722;
+      color: #fff;
+    }
+    /* Right Content */
+    .faq-content {
+      flex: 1;
+    }
+    /* Section Titles */
+    .faq-section {
+      margin-bottom: 40px;
+    }
+    .faq-section h3 {
+      font-size: 1.8em;
+      margin-bottom: 15px;
+      color: #ff5722;
+      border-bottom: 2px solid #ff5722;
+      padding-bottom: 5px;
+    }
+    /* FAQ Items */
+    .faq-item {
+      background: #fff;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      border: 1px solid #e0e0e0;
+      overflow: hidden;
+      transition: box-shadow 0.3s;
+    }
+    .faq-item:hover {
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .faq-question {
+      padding: 15px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: bold;
+    }
+    .faq-question:hover {
+      background: #fafafa;
+    }
+    .faq-answer {
+      padding: 15px;
+      display: none;
+      border-top: 1px solid #e0e0e0;
+      background: #fff;
+    }
+    /* Header */
+  
+    
+    /* Responsive */
+    @media (max-width: 800px) {
+      .container {
+        flex-direction: column;
+      }
+      .sidebar {
+        position: relative;
+        width: 100%;
+        margin-bottom: 20px;
+      }
+    }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <div class="nav-left">
+          <a href="home.html" class="logo"><img src="images/logo.png" alt="Logo" /></a>
+        </div>
+
+        <div class="nav-center">
+          <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="product.html">Products</a></li>
+            <li><a href="help.html">Help</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+          </ul>
+        </div>
+
+        <div class="nav-right">
+          <ul>
+            <li>
+              <a href="cart.html" class="cart-icon"><i class="fa-duotone fa-solid fa-cart-shopping"></i>
+                </svg>
+              </a>
+            </li>
+            <li><a href="checkout.html">Checkout</a></li>
+            <li><a href="login.html" class="login">Login</a></li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+
+  <!-- <header> -->
+    <!-- <div class="search-container">  -->
+      <input type="text" id="faq-search" placeholder="Search for answers...">
+      <!-- <span class="search-icon">&#128269;</span> -->
+    <!-- </div> -->
+  <!-- </header> -->
+
+  <div class="container" style="margin-top: 80px;">
+    <!-- Left Sidebar with Categories -->
+    <aside class="sidebar">
+      <p class="support-text">Get the support you need</p>
+      <h2>Categories</h2>
+      <ul id="category-list">
+        <li data-target="all" class="active">All</li>
+        <li data-target="ordering">Ordering</li>
+        <li data-target="payments">Payments</li>
+        <li data-target="delivery">Delivery</li>
+        <li data-target="returns">Returns</li>
+        <li data-target="account">Account</li>
+      </ul>
+    </aside>
+
+    <!-- Right FAQ Content -->
+    <section class="faq-content" id="faq-content">
+      <!-- Ordering Section -->
+      <div class="faq-section" id="ordering">
+        <h3>Ordering</h3>
+        <!-- 8 Ordering Questions -->
+        <div class="faq-item">
+          <div class="faq-question">
+            How do I place an order on Instamart?
+            <span class="toggle-icon">&#9656;</span>
+          </div>
+          <div class="faq-answer">
+            Browse our product catalog, add items to your cart, and proceed to checkout.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            Can I schedule an order in advance?
+            <span class="toggle-icon">&#9656;</span>
+          </div>
+          <div class="faq-answer">
+            Yes, you can schedule orders up to 48 hours in advance.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            Is there an option for bulk ordering?
+            <span class="toggle-icon">&#9656;</span>
+          </div>
+          <div class="faq-answer">
+            Yes, for bulk orders please contact customer support for special arrangements.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            How do I modify my order after placing it?
+            <span class="toggle-icon">&#9656;</span>
+          </div>
+          <div class="faq-answer">
+            Modifications are allowed within 10 minutes of order placement by contacting support.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            Can I cancel my order?
+            <span class="toggle-icon">&#9656;</span>
+          </div>
+          <div class="faq-answer">
+            Yes, cancellations are permitted within 10 minutes after placing the order.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            Do I need to create an account to order?
+            <span class="toggle-icon">&#9656;</span>
+          </div>
+          <div class="faq-answer">
+            An account is optional but recommended for faster checkout and tracking.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            Can I reorder my previous orders?
+            <span class="toggle-icon">&#9656;</span>
+          </div>
+          <div class="faq-answer">
+            Yes, simply access your order history once logged in to reorder items.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            Are there any order minimums?
+            <span class="toggle-icon">&#9656;</span>
+          </div>
+          <div class="faq-answer">
+            No, there are no minimum order requirements.
+          </div>
+        </div>
+      </div>
+      <!-- Payments Section -->
+      <div class="faq-section" id="payments">
+        <h3>Payments</h3>
+        <!-- 8 Payments Questions -->
+        <div class="faq-item">
+          <div class="faq-question">
+            What payment options are available?
+            <span class="toggle-icon">&#9656;</span>
+          </div>
+          <div class="faq-answer">
+            We accept credit/debit cards, net banking, and popular mobile wallets.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            Is Cash on Delivery available?
+            <span class="toggle-icon">&#9656;</span>
+          </div>
+          <div class="faq-answer">
+            Yes, COD is available in select areas.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            Are my payment details secure?
+            <span class="toggle-icon">&#9656;</span>
+          </div>
+          <div class="faq-answer">
+            We use industry-standard encryption to secure your payment information.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            Can I use multiple payment methods?
+            <span class="toggle-icon">&#9656;</span>
+          </div>
+          <div class="faq-answer">
+            Currently, one payment method per order is supported.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            What should I do if my payment fails?
+            <span class="toggle-icon">&#9656;</span>
+          </div>
+          <div class="faq-answer">
+            Retry your payment or contact support if the issue persists.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            Will I be refunded for a failed payment?
+            <span class="toggle-icon">&#9656;</span>
+          </div>
+          <div class="faq-answer">
+            Yes, any amount deducted from a failed payment is automatically refunded.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            Do you offer EMI options?
+            <span class="toggle-icon">&#9656;</span>
+          </div>
+          <div class="faq-answer">
+            EMI options are available on selected credit/debit cards.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            Are digital wallets supported?
+            <span class="toggle-icon">&#9656;</span>
+          </div>
+          <div class="faq-answer">
+            Yes, digital wallets such as PayTM and Google Pay are accepted.
+          </div>
+        </div>
+      </div>
+      <!-- Delivery Section -->
+      <div class="faq-section" id="delivery">
+        <h3>Delivery</h3>
+        <!-- 8 Delivery Questions -->
+        <div class="faq-item">
+          <div class="faq-question">
+            What is the typical delivery time?
+            <span class="toggle-icon">&#9656;</span>
+          </div>
+          <div class="faq-answer">
+            Delivery usually takes between 30 to 45 minutes.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            How can I track my delivery?
+            <span class="toggle-icon">&#9656;</span>
+          </div>
+          <div class="faq-answer">
+            Track your order in real-time using our tracking page.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            Are there any delivery charges?
+            <span class="toggle-icon">&#9656;</span>
+          </div>
+          <div class="faq-answer">
+            Delivery charges vary based on location and order value.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            What happens if I'm not home during delivery?
+            <span class="toggle-icon">&#9656;</span>
+          </div>
+          <div class="faq-answer">
+            Our delivery person will call you to reschedule the delivery if needed.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            Can I change my delivery address after ordering?
+            <span class="toggle-icon">&#9656;</span>
+          </div>
+          <div class="faq-answer">
+            Contact support immediately to update your delivery address.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            Do you deliver to rural areas?
+            <span class="toggle-icon">&#9656;</span>
+          </div>
+          <div class="faq-answer">
+            Delivery is available in selected rural areas; please check our website for details.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            What if my delivery is delayed?
+            <span class="toggle-icon">&#9656;</span>
+          </div>
+          <div class="faq-answer">
+            We apologize for any delay; please contact support if your delivery is significantly late.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            Are contactless deliveries available?
+            <span class="toggle-icon">&#9656;</span>
+          </div>
+          <div class="faq-answer">
+            Yes, we offer contactless delivery options.
+          </div>
+        </div>
+      </div>
+      <!-- Returns Section -->
+      <div class="faq-section" id="returns">
+        <h3>Returns</h3>
+        <!-- 8 Returns Questions -->
+        <div class="faq-item">
+          <div class="faq-question">
+            How do I return a product?
+            <span class="toggle-icon">&#9656;</span>
+          </div>
+          <div class="faq-answer">
+            Contact support within 24 hours of delivery to initiate a return.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            What is the return timeframe?
+            <span class="toggle-icon">&#9656;</span>
+          </div>
+          <div class="faq-answer">
+            Returns must be requested within 24 hours of delivery.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            Are there any fees for returns?
+            <span class="toggle-icon">&#9656;</span>
+          </div>
+          <div class="faq-answer">
+            Returns are free if the product is faulty; otherwise, standard fees may apply.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            How quickly will I get a refund?
+            <span class="toggle-icon">&#9656;</span>
+          </div>
+          <div class="faq-answer">
+            Refunds are typically processed within 3-5 business days.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            Can I exchange a product instead of returning it?
+            <span class="toggle-icon">&#9656;</span>
+          </div>
+          <div class="faq-answer">
+            Yes, exchanges are available under similar conditions.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            What if the product is damaged upon arrival?
+            <span class="toggle-icon">&#9656;</span>
+          </div>
+          <div class="faq-answer">
+            Please contact support immediately if your product arrives damaged.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            Do I need to return the original packaging?
+            <span class="toggle-icon">&#9656;</span>
+          </div>
+          <div class="faq-answer">
+            It is recommended to return the product in its original packaging.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            Can perishable items be returned?
+            <span class="toggle-icon">&#9656;</span>
+          </div>
+          <div class="faq-answer">
+            Perishable items cannot be returned for health and safety reasons.
+          </div>
+        </div>
+      </div>
+      <!-- Account Section -->
+      <div class="faq-section" id="account">
+        <h3>Account</h3>
+        <!-- 8 Account Questions -->
+        <div class="faq-item">
+          <div class="faq-question">
+            How can I manage my account settings?
+            <span class="toggle-icon">&#9656;</span>
+          </div>
+          <div class="faq-answer">
+            Log in and update your profile, address, and payment details in the 'Account Settings' section.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            How do I reset my password?
+            <span class="toggle-icon">&#9656;</span>
+          </div>
+          <div class="faq-answer">
+            Click 'Forgot Password' on the login page and follow the email instructions.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            How do I update my email address?
+            <span class="toggle-icon">&#9656;</span>
+          </div>
+          <div class="faq-answer">
+            Update your email under 'Account Settings' in the 'Contact Information' section.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            Can I delete my account?
+            <span class="toggle-icon">&#9656;</span>
+          </div>
+          <div class="faq-answer">
+            Yes, contact support to initiate account deletion.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            How do I view my order history?
+            <span class="toggle-icon">&#9656;</span>
+          </div>
+          <div class="faq-answer">
+            You can view your order history by accessing the 'My Orders' section after logging in.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            What should I do if I notice unauthorized activity?
+            <span class="toggle-icon">&#9656;</span>
+          </div>
+          <div class="faq-answer">
+            Immediately change your password and contact support.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            Can I update my delivery address for pending orders?
+            <span class="toggle-icon">&#9656;</span>
+          </div>
+          <div class="faq-answer">
+            Yes, contact support as soon as possible to update the address.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            Will I receive notifications for account activities?
+            <span class="toggle-icon">&#9656;</span>
+          </div>
+          <div class="faq-answer">
+            Yes, you will get email notifications for all significant account activities.
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Call-to-Action -->
+  <div style="max-width: 800px; margin: 40px auto; text-align: center;">
+    <p>Still have questions? <a href="contact.html" style="color: #ff5722; font-weight: bold;">Chat with us now!</a></p>
+  </div>
+
+
+
+
+
+
+    <footer>
+      <div class="footer-container">
+        <p>© 2025 Swiggy</p>
+        <div class="social-icons">
+          <a href="https://www.facebook.com/SwiggyInstamart/"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://in.pinterest.com/swiggyindia/"><i class="fab fa-pinterest"></i></a>
+          <a href="https://www.instagram.com/swiggy_instamart/?hl=en"><i class="fab fa-instagram"></i></a>
+          <a href="https://x.com/SwiggyInstamart"><i class="fab fa-twitter"></i></a>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      const body = document.body;
+      let lastScroll = 0;
+
+      window.addEventListener("scroll", () => {
+        const currentScroll = window.pageYOffset;
+        if (currentScroll <= 0) {
+          body.classList.remove("scroll-up");
+          return;
+        }
+
+        if (
+          currentScroll > lastScroll &&
+          !body.classList.contains("scroll-down")
+        ) {
+          body.classList.remove("scroll-up");
+          body.classList.add("scroll-down");
+        } else if (
+          currentScroll < lastScroll &&
+          body.classList.contains("scroll-down")
+        ) {
+          body.classList.remove("scroll-down");
+          body.classList.add("scroll-up");
+        }
+        lastScroll = currentScroll;
+      });
+
+        // Accordion functionality
+    document.querySelectorAll('.faq-question').forEach(question => {
+      question.addEventListener('click', () => {
+        const faqItem = question.parentElement;
+        const answer = faqItem.querySelector('.faq-answer');
+        const icon = question.querySelector('.toggle-icon');
+        if (answer.style.display === 'block') {
+          answer.style.display = 'none';
+          icon.innerHTML = "&#9656;";
+        } else {
+          answer.style.display = 'block';
+          icon.innerHTML = "&#9662;";
+        }
+      });
+    });
+
+    // FAQ Search functionality
+    const searchInput = document.getElementById('faq-search');
+    searchInput.addEventListener('input', function() {
+      const filter = searchInput.value.toLowerCase();
+      document.querySelectorAll('.faq-item').forEach(item => {
+        const text = item.textContent.toLowerCase();
+        item.style.display = text.includes(filter) ? '' : 'none';
+      });
+    });
+
+    // Scroll Spy functionality using IntersectionObserver
+    const sections = document.querySelectorAll('.faq-section');
+    const categoryItems = document.querySelectorAll('#category-list li');
+
+    const options = {
+      root: null,
+      rootMargin: '0px 0px -70% 0px',
+      threshold: 0
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.getAttribute('id');
+          categoryItems.forEach(item => {
+            item.classList.remove('active');
+            if (item.getAttribute('data-target') === id) {
+              item.classList.add('active');
+            }
+          });
+        }
+      });
+    }, options);
+
+    sections.forEach(section => {
+      observer.observe(section);
+    });
+
+    // Category click scroll to section
+    categoryItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const targetId = item.getAttribute('data-target');
+        if(targetId === "all"){
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          document.getElementById(targetId).scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+    </script>
+  </body>
+</html>

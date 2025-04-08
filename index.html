@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DOM Example with Form and Buttons</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin: 20px;
+      }
+      .container {
+        background-color: lightgreen;
+        padding: 20px;
+        display: inline-block;
+        text-align: left;
+        border: 2px solid black;
+      }
+      h1 {
+        font-weight: bold;
+      }
+      label {
+        font-weight: bold;
+      }
+      input {
+        margin: 5px;
+        padding: 5px;
+      }
+      button {
+        margin-top: 10px;
+        padding: 5px;
+      }
+
+      .hid {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>DOM Example with Form and Buttons</h1>
+      <label for="name">Name:</label>
+      <input type="text" id="name" /><br />
+
+      <label for="email">Email:</label>
+      <input type="email" id="email" /><br />
+
+      <div class="hid" id="heh">
+        <label for="phone">Phone:</label>
+        <input type="text" id="phone" /><br />
+      </div>
+      <button onclick="highlightName()">Highlight Name</button>
+      <button onclick="changeEmail()">Change Email</button>
+      <button onclick="addPhoneNumber()">Add Phone Number</button>
+      <button onclick="removeEmail()">Remove Email</button>
+    </div>
+
+    <script>
+      function highlightName() {
+        document.getElementById("name").style.backgroundColor = "pink";
+      }
+
+      function changeEmail() {
+        document.getElementById("email").value = "hello.email@example.com";
+      }
+
+      function addPhoneNumber() {
+        document.getElementById("heh").classList.remove("hid");
+      }
+      function removeEmail() {
+        let emailInput = document.getElementById("email");
+        if (emailInput) {
+          emailInput.remove();
+          document.querySelector("label[for='email']").remove();
+        }
+      }
+
+      function changeAppearance() {
+        let colors = ["lightgreen", "pink", "lavender", "blue"];
+        let randomColor = colors[Math.floor(Math.random() * colors.length)];
+        document.querySelector(".container").style.backgroundColor =
+          randomColor;
+      }
+
+      setInterval(changeAppearance, 2000);
+    </script>
+  </body>
+</html>
